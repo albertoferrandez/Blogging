@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { useState, useEffect } from "react";
 import { supabase } from "../utils/supabaseClients"
-import { useRouter } from 'next/router'
+import { useRouter } from "next/router"
 
 export default function LoginUser() {
     const router = useRouter()
@@ -16,8 +16,8 @@ export default function LoginUser() {
                 email,
                 password
             })
-
-            if (error) throw new Error
+            
+            if (error) throw new Error(error.message)
         } catch (error) {
             console.log(error.message)
         }
@@ -25,7 +25,6 @@ export default function LoginUser() {
 
     useEffect(() => {
         supabase.auth.onAuthStateChange((event, session) => {
-            console.log(event, session)
             if (!session) {
                 router.push('/')
             } else {

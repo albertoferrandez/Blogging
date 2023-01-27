@@ -1,21 +1,11 @@
 
-import { supabase } from '@/utils/supabaseClients'
 import Link from 'next/link'
-import { useEffect, useState } from 'react'
-
 
 const Navbar = () => {
 
-    const [session, setSession] = useState(null)
-
-    useEffect(() => {
-        supabase.auth.onAuthStateChange((event, session) => {
-            setSession(session)
-        })
-    }, [session])
-
     return (
-        <nav id="header" className="w-full z-30 top-10 py-1 bg-white dark:bg-gray-800 shadow">
+        <nav id="header" className="flex justify-center w-full lg:w-[80vw]  
+        my-0 mx-auto bg-white dark:bg-gray-800 h-[10vh]">
             <div className="w-full flex items-center justify-between mt-0 px-6 py-2">
                 <div className="flex items-center w-full" id="menu">
                     <nav>
@@ -23,24 +13,15 @@ const Navbar = () => {
                     </nav>
                 </div>
 
-                {
-                    session && session ?
-
-                        <h1>User name</h1>
-
-                        :
-
-                        <>
-                            <button className="bg-transparent text-gray-800 px-6 py-2 rounded border 
+                <div className="flex">
+                    <button className="bg-transparent text-gray-800 px-6 py-2 rounded border 
                             border-gray-300 mr-4 hover:bg-gray-100">
-                                <Link href='/login'>Sign in</Link>
-                            </button>
-                            <button className="bg-[#334155] text-gray-200 px-6 py-2 rounded">
-                                <Link href='/registro'>Sign Up</Link>
-                            </button>
-                        </>
-                }
-
+                        <Link href='/login'>Sign in</Link>
+                    </button>
+                    <button className="bg-[#334155] text-gray-200 px-6 py-2 rounded">
+                        <Link href='/registro'>Sign Up</Link>
+                    </button>
+                </div>
             </div>
         </nav>
     )
