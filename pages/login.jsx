@@ -2,10 +2,11 @@ import Link from "next/link";
 import { useState, useEffect } from "react";
 import { supabase } from "../utils/supabaseClients"
 import { useRouter } from "next/router"
+import { useSign } from "@/hooks/useSign";
 
 export default function LoginUser() {
     const router = useRouter()
-
+    const { event }  = useSign()
     const [email, setEmail] = useState("")
     const [password, setPassword] = useState("")
 
@@ -24,14 +25,10 @@ export default function LoginUser() {
     }
 
     useEffect(() => {
-        supabase.auth.onAuthStateChange((event, session) => {
-            if (!session) {
-                router.push('/')
-            } else {
-                router.push('/blog')
-            }
-        })
-    }, [router])
+        if (event === 'SIGNED_IN') {
+            router.push('/')
+        }
+    }, [event])
 
     return (
         <article className="container max-w-full mx-auto py-24 px-6">
@@ -41,7 +38,7 @@ export default function LoginUser() {
                     <div className="relative z-0 w-full mb-6 group">
                         <input
                             type="email" name="email"
-                            id="email" className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer" placeholder=" "
+                            id="email" className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-blue-600 peer" placeholder=" "
                             onChange={(e) => setEmail(e.target.value)}
                             value={email} required
                         />
@@ -50,7 +47,7 @@ export default function LoginUser() {
                     <div className="relative z-0 w-full mb-6 group">
                         <input
                             type="password" name="floating_password"
-                            id="floating_password" className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer" placeholder=" " required
+                            id="floating_password" className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-blue-600 peer" placeholder=" " required
                             onChange={(e) => setPassword(e.target.value)}
                             value={password}
                         />

@@ -4,21 +4,18 @@ import 'tailwindcss/tailwind.css';
 import { useEffect } from 'react';
 import { useRouter } from 'next/router';
 import { supabase } from '@/utils/supabaseClients';
+import { useSign } from '@/hooks/useSign';
 
 function MyApp({ Component, pageProps }) {
 
   const router = useRouter()
+  const { event } = useSign()
 
   useEffect(() => {
-    supabase.auth.onAuthStateChange((event, session) => {
-        if (event === 'SIGNED_IN') {
-            router.push('/blog')
-        } else {
-            router.push('/')
-        }
-    })
-    
-}, [router])
+    if (event === 'SIGNED_IN') {
+      router.push('/')
+    }
+  }, [event])
 
   return (
     <Layout>

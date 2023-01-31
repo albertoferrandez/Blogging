@@ -1,10 +1,30 @@
-import Hero from "@/components/Hero"
+import Main from "@/components/Main"
+import { supabase } from "@/utils/supabaseClients";
+import { Suspense, useEffect } from "react";
 
-const Home = () => {
+export async function getStaticProps() {
+
+  const { data, error } = await 
+  supabase
+    .from('blog')
+    .select('*')
+    
+  if (error) {
+    throw new Error(error);
+  }
+
+  return {
+    props: {
+      data,
+    },
+  };
+}
+
+const Home = ({data}) => {
   
   return (
     <>
-      <Hero />
+      <Main posts={data} />
     </>
   )
 }

@@ -1,66 +1,29 @@
-import { useUser } from "@/hooks/useUser"
-import { supabase } from "@/utils/supabaseClients"
-import { Button, Timeline } from "flowbite-react"
-import { TimelineBody } from "flowbite-react/lib/esm/components/Timeline/TimelineBody"
-import { TimelineContent } from "flowbite-react/lib/esm/components/Timeline/TimelineContent"
-import { TimelineItem } from "flowbite-react/lib/esm/components/Timeline/TimelineItem"
-import { TimelinePoint } from "flowbite-react/lib/esm/components/Timeline/TimelinePoint"
-import { TimelineTime } from "flowbite-react/lib/esm/components/Timeline/TimelineTime"
-import { TimelineTitle } from "flowbite-react/lib/esm/components/Timeline/TimelineTitle"
-import { useEffect, useState } from "react"
-import { HiOutlineArrowLongRight, HiCalendar } from "react-icons/hi2";
+import PostCard from "./PostCard"
 
-
-const Main = () => {
-
-    const { user } = useUser()
-    const [posts, setPosts] = useState([])
-
-
-    useEffect(() => {
-        const getPosts = async () => {
-            let { data: blog, error } = await supabase
-                .from('blog')
-                .select('*')
-            setPosts(blog)
-        }
-        getPosts()
-    }, [])
-
+const Main = ({ posts }) => {
 
     return (
-        <div className="w-[65%] sm:ml-[50px] lg:ml-[70px] mr-[50px] lg:mr-[300px] md:mr-[300px] p-4 border-dashed border-gray-200 dark:border-gray-700 border-2 rounded-lg">
-            <div className="w-[65%] mx-auto">
+        <div className="grid md:grid-cols-12 gap-5 p-4 m-2 content-center">
+            <div className="md:col-span-9 p-4">
                 <div>
-                    <h1 className="dark:text-white text-gray-800 text-2xl">Posts de {user}</h1>
+                    <h1 className="text-gray-800 text-2xl mb-6">Posts de de la comunidad</h1>
                 </div>
                 {
-                    posts.map(post => (
-                        <Timeline key={post.id} className="mt-6">
-                            <TimelineItem>
-                                <TimelinePoint icon={HiCalendar} />
-                                <TimelineContent>
-                                    <TimelineTitle>
-                                        {post.title}
-                                    </TimelineTitle>
-                                    <TimelineTime>
-                                        {post.created_at}
-                                    </TimelineTime>
-                                    <TimelineBody>
-                                        {post.content}
-                                    </TimelineBody>
-                                    <Button color="gray">
-                                        Leer Mas . . .
-                                        <HiOutlineArrowLongRight className="ml-2 h-3 w-3" />
-                                    </Button>
-                                </TimelineContent>
-                            </TimelineItem>
-                        </Timeline>
-                    )) 
+                    posts && posts.map(post => (
+                        <PostCard
+                            key={post.id}
+                            id={post.id}
+                            title={post.title}
+                            content={post.content}
+                            date={post.created_at}
+                        />
+                    ))
                 }
             </div>
+            <aside className="md:col-span-3 md:pt-0 p-2 border-l-[1px]  border-slate-400"></aside>
         </div>
     )
 }
 
 export default Main
+

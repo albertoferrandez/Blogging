@@ -4,22 +4,22 @@ import { useEffect, useState } from "react"
 export const useUser = () => {
 
     const [user, setUser] = useState()
+    const [userId, setUserId] = useState()
+
 
     useEffect(() => {
         const getUser = async () => {
             let { data, error } = await supabase
                 .from('usernames')
                 .select()
-            const {
-                data: { session },
-            } = await supabase.auth.getSession()
-            console.log(session.user);
 
-
+            const { data: { session }} = await supabase.auth.getSession()
+            
             data.forEach(u => {
+                if(session === null) return 
                 if (u.userid === session.user.id) {
-                    console.log(u.username)
                     setUser(u.username)
+                    setUserId(session.user.id)
                 }
             });
         }
@@ -28,7 +28,8 @@ export const useUser = () => {
     }, [])
 
     return {
-        user
+        user,
+        userId
     }
 }
 
