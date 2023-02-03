@@ -12,7 +12,7 @@ function MyApp({ Component, pageProps }) {
   const { event } = useSign()
 
   useEffect(() => {
-    if (event === 'SIGNED_IN') {
+    if (event === 'SIGNED_OUT') {
       router.push('/')
     }
   }, [event])

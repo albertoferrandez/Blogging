@@ -30,7 +30,7 @@ const CreatePosts = ({ visible, onClose }) => {
     if (!visible) return null
 
     return (
-        <article id='modal' onClick={handleClose} className="fixed flex items-center justify-center z-50 backdrop-blur-sm w-full p-4 overflow-x-hidden overflow-y-auto md:inset-0 h-full">
+        <article id='modal' onClick={handleClose} className="fixed flex items-center justify-center z-50 backdrop-blur-sm w-screen p-4 overflow-x-hidden overflow-y-auto inset-0 h-screen">
             <div className="relative w-full h-full max-w-md md:h-auto">
                 <div className="relative bg-white rounded-lg shadow dark:bg-gray-700">
                     <button onClick={onClose} className="absolute top-3 right-2.5 text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center dark:hover:bg-gray-800 dark:hover:text-white" >
