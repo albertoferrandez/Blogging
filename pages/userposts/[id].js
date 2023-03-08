@@ -5,12 +5,24 @@ import { supabase } from "@/utils/supabaseClients"
 import { useRouter } from "next/router"
 import { useEffect } from "react"
 
-
 const MisPosts = ({ posts = {} }) => {
 
-    const {user}  = useUser()
+    const { user } = useUser()
     const { event } = useSign()
     const router = useRouter()
+
+    const handleDelete = async (id) => {
+        const { data, error } = await supabase
+            .from('blog')
+            .delete()
+            .eq('id', id)
+        if(error){
+            console.log(error)
+        }
+        if(data){
+            console.log(data)
+        }
+    }
 
     useEffect(() => {
         if (event === 'SIGNED_IN') {
@@ -31,6 +43,7 @@ const MisPosts = ({ posts = {} }) => {
                         title={post.title}
                         content={post.content}
                         date={post.created_at}
+                        handleDelete={handleDelete}
                     />
                 ))
             }
